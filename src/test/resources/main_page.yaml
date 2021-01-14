@@ -1,0 +1,10 @@
+# PageObjectModel
+name: mainPage
+actions:
+  init:
+    - driver: chrome
+    - implicitlyWait: 15
+    - get: https://work.weixin.qq.com/wework_admin/frame
+    - maximize: "{}"
+    - setCookie: cookies.yaml
+    - return: [indexPage,index_page.yaml]
