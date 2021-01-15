@@ -119,6 +119,7 @@ public class PageActionModel {
             try {
                 ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
                 PageObjectModel page = mapper.readValue(new File(returnPage.get(1)), PageObjectModel.class);
+//                page.getActions().get()
                 PageObjectModel.getInstance().addPage(returnPage.get(0), page);
             } catch (IOException e) {
                 e.printStackTrace();

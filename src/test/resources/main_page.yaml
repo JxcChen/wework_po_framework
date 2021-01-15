@@ -2,9 +2,9 @@
 name: mainPage
 actions:
   init:
-    - driver: chrome
-    - implicitlyWait: 15
-    - get: https://work.weixin.qq.com/wework_admin/frame
-    - maximize: "{}"
-    - setCookie: cookies.yaml
-    - return: [indexPage,index_page.yaml]
+    driver: chrome
+    implicitlyWait: 15
+    get: https://work.weixin.qq.com/wework_admin/frame
+    maximize: "{}"
+    setCookies: cookies.yaml
+    returnPage: [indexPage,src/test/resources/index_page.yaml]
