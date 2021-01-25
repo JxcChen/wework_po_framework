@@ -29,7 +29,6 @@ public class GetCookie {
         mapper.writeValue(new File("cookies.yaml"),cookies);
         logger.info("获取企业微信cookie，不执行测试");
         driver.close();
-        System.exit(0);
 
     }
 }

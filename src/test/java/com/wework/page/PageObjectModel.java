@@ -54,7 +54,7 @@ public class PageObjectModel {
      * @param pageName 页面名
      * @return
      */
-    private PageObjectModel getPage(String pageName){
+    public PageObjectModel getPage(String pageName){
         PageObjectModel pageObject = page.get(pageName);
         return pageObject;
     }
@@ -71,12 +71,12 @@ public class PageObjectModel {
         PageObjectModel pageObjectModel = mapper.readValue(new File(path), PageObjectModel.class);
         addPage(pageName,pageObjectModel);
         // todo: 运行PO的init方法进行初始化
-        runActions(pageName,"init");
+        runActions(pageName,"init",null);
     }
 
-    public void runActions(String pageName, String methodName) {
+    public void runActions(String pageName, String methodName, HashMap<String,String> actualParam) {
         PageObjectModel pageObjectModel = page.get(pageName);
-        pageObjectModel.actions.get(methodName).run();
+        pageObjectModel.actions.get(methodName).run(actualParam);
     }
 
 

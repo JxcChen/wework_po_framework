@@ -46,8 +46,8 @@ public class PageActionModelTest {
         operationList.add(operationMap1);
         operationList.add(operationMap2);
         pageActionModel.setOperations(operationList);
-
-        pageActionModel.run();
+        HashMap<String,String> actual = new HashMap<>();
+        pageActionModel.run(actual);
         logger.info("debug");
     }
 }

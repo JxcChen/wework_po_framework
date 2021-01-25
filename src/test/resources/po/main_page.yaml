@@ -7,4 +7,4 @@ actions:
     get: https://work.weixin.qq.com/wework_admin/frame
     maximize: "{}"
     setCookies: cookies.yaml
-    returnPage: [indexPage,src/test/resources/index_page.yaml]
+    returnPage: [indexPage,src/test/resources/po/index_page.yaml]

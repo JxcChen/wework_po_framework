@@ -1,0 +1,10 @@
+# PageObjectModel
+name: contactPage
+actions:
+  addMember:
+    operations:
+      - find: {"id": "username"}
+      - send_key: "${param0}"
+      - find: {"id": "memberAdd_acctid"}
+      - send_key: "${param1}"
+    returnPage: [contactPage,src/test/resources/po/contact_page.yaml]

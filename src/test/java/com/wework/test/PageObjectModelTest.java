@@ -23,8 +23,8 @@ public class PageObjectModelTest {
 
 
         PageObjectModel instance = PageObjectModel.getInstance();
-        instance.initPO("mainPage","src/test/resources/main_page.yaml");
-        instance.runActions("indexPage","getContactPage");
+        instance.initPO("mainPage","src/test/resources/po/main_page.yaml");
+        instance.runActions("indexPage","getContactPage",null);
         logger.info("debug");
     }
 }

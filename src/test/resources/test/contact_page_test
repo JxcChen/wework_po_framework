@@ -1,0 +1,13 @@
+contactPageTestcaseModel:
+
+
+  init:
+    steps:
+      - init: [mainPage,src/test/resources/po/main_page.yaml]
+      - mainPage.getContactPage: []
+
+  addMember:
+    data:
+      - {addMember: ["小司马",11]}
+    steps:
+      - contactPage.addMemberAction: "${addMember}"

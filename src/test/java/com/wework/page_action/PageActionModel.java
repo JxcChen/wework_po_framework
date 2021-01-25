@@ -13,6 +13,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.PlaceholderUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,11 +25,16 @@ import java.util.concurrent.TimeUnit;
 /**
  * ClassName: PageActionModel
  * date: 2021/1/12 17:47
- *
  * @author JJJJ
  * Description: 页面中各方法执行
+ *
+ * 1 yaml文件步骤属性进行反序列化
+ * 2 声明run方法执行具体action
+ *     2.1 对driver进行初始化
+ *     2.2 执行具体的action,对具体operation进行判断执行
+ *     2.3 对获取的结果做相应保存
  */
-public class PageActionModel {
+public class PageActionModel extends BasePageAction {
 
 
     private String driver;
@@ -42,12 +48,8 @@ public class PageActionModel {
     private ArrayList<HashMap<String, Object>> operations;
 
 
-    private WebDriver webDriver;
-    private By locator;
-    private WebElement currentElement;
 
-
-    public void run() {
+    public void run(HashMap<String,String> actual) {
         // 初始化驱动
         if (driver != null) {
             if (driver.equals("chrome")) {
@@ -102,6 +104,12 @@ public class PageActionModel {
             operations.forEach(operation -> {
                 if (operation.containsKey("find")) {
                     HashMap<String, String> find = (HashMap<String, String>) operation.get("find");
+                    if (find.containsKey("id")){
+                        locator = By.id(find.get("id"));
+                    }else if (find.containsKey("xpath")){
+                        locator = By.xpath(find.get("xpath"));
+                    }
+
                     setLocator(find);
                     currentElement = webDriver.findElement(locator);
                 }
@@ -109,7 +117,9 @@ public class PageActionModel {
                     clickElement(locator);
                 }
                 if (operation.containsKey("send_key")) {
-                    sendKey(locator, operation.get("send_key").toString());
+                    // 进行对占位符的参数化
+                    String sendKey = PlaceholderUtils.resolveString(operation.get("send_key").toString(),actual);
+                    sendKey(locator, sendKey);
                 }
             });
         }
@@ -141,7 +151,6 @@ public class PageActionModel {
 
     /**
      * 判断定位方式并设置定位符
-     *
      * @param locatorMap 定位符集合
      */
     private void setLocator(HashMap<String, String> locatorMap) {
@@ -155,35 +164,12 @@ public class PageActionModel {
     }
 
 
-    /**
-     * 通用获取元素方法
-     *
-     * @param locator 元素定位符
-     */
 
-    public WebElement findElementVisibility(By locator) {
-        WebDriverWait webDriverWait = new WebDriverWait(webDriver, 10);
-        return webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-    }
-
-    public WebElement findElementClickable(By locator) {
-        WebDriverWait webDriverWait = new WebDriverWait(webDriver, 10);
-        return webDriverWait.until(ExpectedConditions.elementToBeClickable(locator));
-    }
-
-    public void clickElement(By locator) {
-        findElementClickable(locator).click();
-    }
-
-    public void sendKey(By locator, String key) {
-        findElementVisibility(locator).sendKeys(key);
-    }
 
 
     /**
      * 获取元素属性值
-     *
-     * @param by            元素定位表达是
+     * @param locator       元素定位表达是
      * @param attributeName 元素的属性名
      */
     public String getElementAttribute(By locator, String attributeName) {
@@ -247,7 +233,6 @@ public class PageActionModel {
     public void setReturnPage(ArrayList<String> returnPage) {
         this.returnPage = returnPage;
     }
-
 
     public String getQuit() {
         return quit;
