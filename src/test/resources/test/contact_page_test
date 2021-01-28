@@ -1,13 +1,21 @@
-contactPageTestcaseModel:
-
-
+testcaseModel:
   init:
     steps:
       - init: [mainPage,src/test/resources/po/main_page.yaml]
-      - mainPage.getContactPage: []
+      - indexPage.getContactPage: []
 
   addMember:
     data:
-      - {addMember: ["小司马",11]}
+      - {addMember: ["小司马","11","13322114455"]}
+      - {addMember: ["大司马","12","13322114456"]}
+    assertExpected:
+      - {expected0: "添加成功"}
+      - {expected0: "添加成功"}
+
+    asserts:
+      - reason: 添加成员断言
+        matcher: equalTo
+        expected: "${expected0}"
     steps:
-      - contactPage.addMemberAction: "${addMember}"
+      - contactPage.addMember: "${addMember}"
+      - assert: 0

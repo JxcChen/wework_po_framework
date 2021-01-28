@@ -7,4 +7,8 @@ actions:
       - send_key: "${param0}"
       - find: {"id": "memberAdd_acctid"}
       - send_key: "${param1}"
+      - find: {"id": "memberAdd_phone"}
+      - send_key: "${param2}"
+      - find: {"xpath": "//div[contains(@class,'member_colRight_operationBar')][2]/a[text()='保存']"}
+      - click: {}
     returnPage: [contactPage,src/test/resources/po/contact_page.yaml]

@@ -17,18 +17,7 @@ import java.util.List;
  */
 public class StepsTest {
 
-/*
-init:
-    step:
-      - init: [mainPage,src/test/resources/po/main_page.yaml]
-      - mainPage.getContactPage: []
 
-  addMember:
-    data:
-      - {addMember: ["小司马",11]}
-    steps:
-      - contactPage.addMemberAction: "${addMember}"
- */
 
 
     @Test
@@ -58,6 +47,5 @@ init:
         stepModel.setData(data);
         stepModel.setSteps(steps);
         stepModel.run();
-
     }
 }

@@ -104,12 +104,6 @@ public class PageActionModel extends BasePageAction {
             operations.forEach(operation -> {
                 if (operation.containsKey("find")) {
                     HashMap<String, String> find = (HashMap<String, String>) operation.get("find");
-                    if (find.containsKey("id")){
-                        locator = By.id(find.get("id"));
-                    }else if (find.containsKey("xpath")){
-                        locator = By.xpath(find.get("xpath"));
-                    }
-
                     setLocator(find);
                     currentElement = webDriver.findElement(locator);
                 }
@@ -125,11 +119,9 @@ public class PageActionModel extends BasePageAction {
         }
         // 返回页面
         if (returnPage != null && returnPage.size() > 0) {
-
             try {
                 ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
                 PageObjectModel page = mapper.readValue(new File(returnPage.get(1)), PageObjectModel.class);
-//                page.getActions().get()
                 PageObjectModel.getInstance().addPage(returnPage.get(0), page);
             } catch (IOException e) {
                 e.printStackTrace();
