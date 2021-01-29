@@ -18,4 +18,6 @@ testcaseModel:
         expected: "${expected0}"
     steps:
       - contactPage.addMember: "${addMember}"
-      - assert: 0
+      - contactPage.getAddMemberResult: []
+      - quit: []
+    #  - assert: 0

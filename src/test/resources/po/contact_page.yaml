@@ -12,3 +12,8 @@ actions:
       - find: {"xpath": "//div[contains(@class,'member_colRight_operationBar')][2]/a[text()='保存']"}
       - click: {}
     returnPage: [contactPage,src/test/resources/po/contact_page.yaml]
+
+  getAddMemberResult:
+    operations:
+      - sleep: 5
+    returnResults: {"xpath": "//div[@class='member_colRight']",getAttribute: "text"}

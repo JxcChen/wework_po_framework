@@ -43,7 +43,7 @@ public class PageActionModel extends BasePageAction {
     private String maximize;
     private String setCookies;
     private ArrayList<String> returnPage;
-    private ArrayList<HashMap<String, String>> returnResults;
+    private HashMap<String, String> returnResults;
     private String quit;
     private ArrayList<HashMap<String, Object>> operations;
 
@@ -102,6 +102,14 @@ public class PageActionModel extends BasePageAction {
         // 具体操作
         if (operations != null && operations.size() > 0) {
             operations.forEach(operation -> {
+                if (operation.containsKey("sleep")){
+                    int sleepTime = (int) operation.get("sleep");
+                    try {
+                        Thread.sleep(sleepTime);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
                 if (operation.containsKey("find")) {
                     HashMap<String, String> find = (HashMap<String, String>) operation.get("find");
                     setLocator(find);
@@ -115,13 +123,19 @@ public class PageActionModel extends BasePageAction {
                     String sendKey = PlaceholderUtils.resolveString(operation.get("send_key").toString(),actual);
                     sendKey(locator, sendKey);
                 }
+                if (operation.containsKey("getAttribute")) {
+                    // 进行对占位符的参数化
+                    String attributeName = PlaceholderUtils.resolveString(operation.get("getAttribute").toString(),actual);
+                    String elementAttribute = getElementAttribute(locator, attributeName);
+                    System.out.println(elementAttribute);
+                }
             });
         }
         // 返回页面
         if (returnPage != null && returnPage.size() > 0) {
             try {
                 ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-                PageObjectModel page = mapper.readValue(new File(returnPage.get(1)), PageObjectModel.class);
+                PageObjectModel page = mapper. readValue(new File(returnPage.get(1)), PageObjectModel.class);
                 PageObjectModel.getInstance().addPage(returnPage.get(0), page);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -129,12 +143,12 @@ public class PageActionModel extends BasePageAction {
         }
         // 获取实际值进行断言
         if (returnResults != null) {
-            returnResults.forEach(result -> {
-                setLocator(result);
-                if (result.containsKey("attribute")) {
-                    PageObjectModel.getInstance().setActualResult(getElementAttribute(locator, result.get("attribute")));
-                }
-            });
+            setLocator(returnResults);
+            if (returnResults.containsKey("getAttribute")){
+                String attributeName = returnResults.get("getAttribute");
+                String elementAttribute = getElementAttribute(locator, attributeName);
+                System.out.println(elementAttribute);
+            }
         }
         if (quit != null) {
             webDriver.quit();
@@ -232,5 +246,13 @@ public class PageActionModel extends BasePageAction {
 
     public void setQuit(String quit) {
         this.quit = quit;
+    }
+
+    public HashMap<String, String> getReturnResults() {
+        return returnResults;
+    }
+
+    public void setReturnResults(HashMap<String, String> returnResults) {
+        this.returnResults = returnResults;
     }
 }
