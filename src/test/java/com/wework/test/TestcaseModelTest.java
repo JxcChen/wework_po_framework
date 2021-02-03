@@ -20,7 +20,10 @@ public class TestcaseModelTest {
         TestcaseModel model = TestcaseModel.load("/test/contact_page_test");
         model.run("init");
         model.run("addMember");
+
     }
+
+
 
 
 

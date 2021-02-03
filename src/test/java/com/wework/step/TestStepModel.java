@@ -39,8 +39,8 @@ public class TestStepModel {
      * 将数据根据参数个数进行裂变
      * @return 裂变后的 case集合
      */
-    public List<TestStepModel> testcaseGenerate() {
-        List<TestStepModel> testCaseList = new ArrayList<>();
+    public ArrayList<TestStepModel> testcaseGenerate() {
+        ArrayList<TestStepModel> testCaseList = new ArrayList<>();
         if (data!=null&& data.size()>0){
             for (int i = 0; i < data.size(); i++) {
                 TestStepModel testStep = new TestStepModel();
@@ -113,6 +113,9 @@ public class TestStepModel {
                         assertThat(reason, actualResult, not(containsString(expectedValue)));
                     });
                 }
+            }
+            if (key.equals("quit")){
+                PageObjectModel.getInstance().quitDriver();
             }
         });
 

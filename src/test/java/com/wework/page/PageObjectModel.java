@@ -2,6 +2,7 @@ package com.wework.page;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.wework.page_action.BasePageAction;
 import com.wework.page_action.PageActionModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +22,6 @@ public class PageObjectModel {
 
     private String name;
     private HashMap<String, PageActionModel> actions;
-
     public static PageObjectModel instance;
     public static HashMap<String,PageObjectModel> page = new HashMap<>();
     // 储存返回的实际结果  用于断言
@@ -72,6 +72,10 @@ public class PageObjectModel {
         addPage(pageName,pageObjectModel);
         // todo: 运行PO的init方法进行初始化
         runActions(pageName,"init",null);
+    }
+
+    public void quitDriver(){
+        BasePageAction.webDriver.quit();
     }
 
     public void runActions(String pageName, String methodName, HashMap<String,String> actualParam) {

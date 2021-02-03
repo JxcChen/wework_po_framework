@@ -4,6 +4,7 @@ testcaseModel:
       - init: [mainPage,src/test/resources/po/main_page.yaml]
       - indexPage.getContactPage: []
 
+
   addMember:
     data:
       - {addMember: ["小司马","11","13322114455"]}
@@ -19,5 +20,5 @@ testcaseModel:
     steps:
       - contactPage.addMember: "${addMember}"
       - contactPage.getAddMemberResult: []
+      - assert: 0
       - quit: []
-    #  - assert: 0

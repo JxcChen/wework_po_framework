@@ -5,6 +5,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.wework.step.TestStepModel;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,21 +27,30 @@ public class TestcaseModel {
      * @return TestCaseModel
      * @throws IOException
      */
-    public static TestcaseModel load(String path) throws IOException {
+    public static TestcaseModel load(String path){
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-        TestcaseModel testCaseModel = mapper.readValue(TestcaseModel.class.getResourceAsStream(path), TestcaseModel.class);
+        TestcaseModel testCaseModel = null;
+        try {
+            testCaseModel = mapper.readValue(TestcaseModel.class.getResourceAsStream(path), TestcaseModel.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return testCaseModel;
     }
 
     /**
      * 调用具体的测试步骤进行测试并进行断言
      * @param stepName 要执行的用例名
+     * @return
      */
-    public void run(String stepName){
-        List<TestStepModel> testStepModels = testcaseModel.get(stepName).testcaseGenerate();
-        for (TestStepModel step:testStepModels
-             ) {
-            step.run();
+    public ArrayList<TestStepModel> run(String stepName){
+
+        if (stepName.equals("init") || stepName.equals("quit")){
+            testcaseModel.get(stepName).run();
+            return null;
         }
+
+        ArrayList<TestStepModel> testStepModels = testcaseModel.get(stepName).testcaseGenerate();
+        return testStepModels;
     }
 }

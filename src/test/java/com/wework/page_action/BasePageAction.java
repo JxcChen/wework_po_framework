@@ -19,11 +19,17 @@ public class BasePageAction {
     public WebElement currentElement;
 
 
+
+
+    public void quit(){
+        webDriver.quit();
+    }
+
+
     /**
      * 通用获取元素方法
      * @param locator 元素定位符
      */
-
     public WebElement findElementVisibility(By locator) {
         WebDriverWait webDriverWait = new WebDriverWait(webDriver, 10);
         return webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(locator));
